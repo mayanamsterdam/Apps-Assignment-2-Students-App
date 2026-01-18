@@ -1,5 +1,6 @@
 package com.example.students
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.students.adapter.StudentsRecyclerAdapter
 import com.example.students.model.Model
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
     private lateinit var studentsRecyclerView: RecyclerView
@@ -29,5 +31,16 @@ class MainActivity : AppCompatActivity() {
         studentsRecyclerView.setHasFixedSize(true)
         studentsRecyclerView.layoutManager = LinearLayoutManager(this)
         studentsRecyclerView.adapter = StudentsRecyclerAdapter(students)
+
+        val addStudentButton =
+            findViewById<FloatingActionButton>(R.id.main_activity_add_student_floating_action_button)
+        addStudentButton.setOnClickListener {
+            startActivity(Intent(this, AddStudentActivity::class.java))
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (studentsRecyclerView.adapter as StudentsRecyclerAdapter).notifyDataSetChanged()
     }
 }
