@@ -1,5 +1,6 @@
 package com.example.students
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.CheckBox
@@ -24,18 +25,20 @@ class StudentDetailsActivity : AppCompatActivity() {
         val editStudentButton = findViewById<Button>(R.id.student_details_activity_edit_button)
         val cancelButton = findViewById<Button>(R.id.student_details_activity_cancel_button)
 
+        val studentPosition = intent.getSerializableExtra("studentPosition") as Int
+
         editStudentButton.setOnClickListener(
             {
-                // TODO: Edit student
+                startActivity(Intent(this, EditStudentDetailsActivity::class.java).apply {
+                    putExtra("studentPosition", studentPosition)
+                })
                 finish()
             }
         )
 
-        cancelButton.setOnClickListener(
-            {
-                finish()
-            }
-        )
+        cancelButton.setOnClickListener {
+            finish()
+        }
 
         val studentNameTextView =
             findViewById<TextView>(R.id.student_details_activity_name_text_view)
@@ -49,7 +52,6 @@ class StudentDetailsActivity : AppCompatActivity() {
             findViewById<CheckBox>(R.id.student_details_activity_checked_checkbox)
 
 
-        val studentPosition = intent.getSerializableExtra("studentPosition") as Int
         val student = Model.shared.students[studentPosition]
 
         student.let {
